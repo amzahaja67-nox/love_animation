@@ -1,4 +1,4 @@
-const DISPLAY_NAME = "Geby Varita Aulia";
+const DISPLAY_NAME = "Geby Verita Aulia";
 const HEART_PARTICLE_COUNT = 12;
 
 const nameElement = document.querySelector("#animated-name");
@@ -37,9 +37,12 @@ for (let i = 0; i < length; i += 0.8) {
 }
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-camera.position.z = 400;
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 2000);
+const baseCameraDistance = 400;
+const heartWidth = 640;
+const horizontalFit = 0.88;
+camera.position.z = baseCameraDistance;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -47,6 +50,7 @@ const geom = new THREE.BufferGeometry().setFromPoints(vertices);
 const mat = new THREE.PointsMaterial({ color: 0xff3b7a, size: 3 });
 const points = new THREE.Points(geom, mat);
 scene.add(points);
+let mobileLayout = innerWidth <= 600;
 
 let hue = 0;
 function animate() {
@@ -57,13 +61,22 @@ function animate() {
   hue = (hue + 0.002) % 1;
   mat.color.setHSL(hue, 0.85, 0.6);
 
-  points.rotation.y += 0.002;
+  if (mobileLayout) {
+    points.rotation.y = Math.sin(performance.now() * 0.0005) * 0.18;
+  } else {
+    points.rotation.y += 0.002;
+  }
   renderer.render(scene, camera);
 }
 
 animate();
 window.addEventListener("resize", () => {
+  mobileLayout = innerWidth <= 600;
   camera.aspect = innerWidth / innerHeight;
+  const horizontalView = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect;
+  camera.position.z = Math.max(baseCameraDistance, heartWidth / (horizontalView * horizontalFit));
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
 });
+
+window.dispatchEvent(new Event("resize"));
