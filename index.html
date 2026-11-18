@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Heart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.4/dist/gsap.min.js"></script>
@@ -9,5 +11,9 @@
 </head>
 <body>
 <svg viewBox="0 0 600 552"><path d="M300,520 C50,400 0,200 150,150 C200,100 300,150 300,200 C300,150 400,100 450,150 C600,200 550,400 300,520 Z" /></svg>
+<div class="name-overlay">
+  <p id="animated-name" class="animated-name"></p>
+  <div id="heart-particles" class="heart-particles" aria-hidden="true"></div>
+</div>
 </body>
 </html>

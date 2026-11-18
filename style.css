@@ -6,10 +6,94 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  height: 100dvh;
 }
 
 canvas {
   display: block;
+}
+
+.name-overlay {
+  position: fixed;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: min(90vw, 32rem);
+  min-height: 7rem;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.animated-name {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #fff3fa;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.45rem, 5vw, 2.65rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 0 8px #ff71ad, 0 0 20px #ec3e91, 0 0 34px #a34ce8;
+  animation: name-float 5s ease-in-out infinite, name-glow 3.2s ease-in-out infinite, name-fade 8s ease-in-out infinite;
+}
+
+.heart-particles {
+  position: absolute;
+  inset: 0;
+}
+
+.heart-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: var(--heart-color);
+  font-size: var(--heart-size);
+  line-height: 1;
+  text-shadow: 0 0 8px currentColor;
+  animation: heart-drift var(--heart-duration) ease-in-out var(--heart-delay) infinite;
+}
+
+@keyframes name-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes name-glow {
+  0%, 100% { text-shadow: 0 0 8px #ff71ad, 0 0 20px #ec3e91, 0 0 34px #a34ce8; }
+  50% { text-shadow: 0 0 12px #fff, 0 0 26px #ff71ad, 0 0 42px #a34ce8; }
+}
+
+@keyframes name-fade {
+  0%, 100% { opacity: 0.35; }
+  18%, 78% { opacity: 1; }
+}
+
+@keyframes heart-drift {
+  0% { opacity: 0; transform: translate(var(--heart-x), var(--heart-y)) scale(0.65); }
+  20% { opacity: 0.9; }
+  85% { opacity: 0.75; }
+  100% { opacity: 0; transform: translate(var(--heart-x), calc(var(--heart-y) - 24px)) scale(1.15); }
+}
+
+@media (max-width: 480px) {
+  .name-overlay {
+    min-height: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-name {
+    opacity: 1;
+    animation: none;
+  }
+
+  .heart-particle {
+    display: none;
+  }
 }
 
 svg {

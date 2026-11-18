@@ -1,3 +1,25 @@
+const DISPLAY_NAME = "Geby Varita Aulia";
+const HEART_PARTICLE_COUNT = 12;
+
+const nameElement = document.querySelector("#animated-name");
+const particleContainer = document.querySelector("#heart-particles");
+
+nameElement.textContent = DISPLAY_NAME;
+
+const heartColors = ["#ff6fae", "#ff9bc8", "#ffffff", "#d7a1ff"];
+for (let i = 0; i < HEART_PARTICLE_COUNT; i += 1) {
+  const heart = document.createElement("span");
+  heart.className = "heart-particle";
+  heart.textContent = String.fromCharCode(0x2665);
+  heart.style.setProperty("--heart-x", `${Math.random() * 280 - 140}px`);
+  heart.style.setProperty("--heart-y", `${Math.random() * 100 - 50}px`);
+  heart.style.setProperty("--heart-size", `${Math.random() * 9 + 8}px`);
+  heart.style.setProperty("--heart-duration", `${Math.random() * 2 + 3.5}s`);
+  heart.style.setProperty("--heart-delay", `${Math.random() * -5}s`);
+  heart.style.setProperty("--heart-color", heartColors[i % heartColors.length]);
+  particleContainer.appendChild(heart);
+}
+
 const path = document.querySelector("path");
 const length = path.getTotalLength();
 const vertices = [];
